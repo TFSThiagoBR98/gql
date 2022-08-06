@@ -30,7 +30,7 @@ jobs:
       - name: Activate multipack
         run: |
           echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-          pub global activate multipack
+          dart pub global activate melos
       - name: Check pubspec
         run: |
           multipack --only $PACKAGE pubspec clean
@@ -83,7 +83,7 @@ jobs:
       - name: Activate multipack
         run: |
           echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-          pub global activate multipack
+          dart pub global activate melos
       - name: Check pubspec
         run: |
           multipack --only $PACKAGE pubspec clean
@@ -129,10 +129,10 @@ jobs:
       - name: Activate multipack
         run: |
           echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-          pub global activate multipack
+          dart pub global activate melos
       - name: Check pubspec
         run: |
-          multipack --only $PACKAGE pubspec clean
+          multipack --scope $PACKAGE pubspec clean
           multipack --only $PACKAGE exec git diff --exit-code pubspec.yaml
       - name: Override local dependencies
         run: |
@@ -176,7 +176,7 @@ jobs:
       - name: Activate multipack
         run: |
           echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-          pub global activate multipack
+          dart pub global activate melos
       - name: Bump to alpha version
         run: |
           multipack --only $PACKAGES pubspec bump-alpha
@@ -188,17 +188,7 @@ jobs:
         continue-on-error: true
         run: |
           echo "{\"accessToken\":\"$PUB_ACCESS_TOKEN\",\"refreshToken\":\"$PUB_REFRESH_TOKEN\",\"idToken\":null,\"tokenEndpoint\":\"https://accounts.google.com/o/oauth2/token\",\"scopes\":[\"openid\",\"https://www.googleapis.com/auth/userinfo.email\"],\"expiration\":1588334512218}" > $HOME/.pub-cache/credentials.json
-
-          ## BEGIN TEMPORARY WORKAROUND FOR https://github.com/google/built_value.dart/issues/1032
-          ## See dry_run_workaround_helpers.sh for more details
-          source .github/workflows/dry_run_workaround_helpers.sh
-
-          multipack --only $PACKAGES exec 'pub publish --dry-run 2>&1' | cap
-
-          ignore_err_when_stdout_contains \
-            'Publishing gql_build' \
-            'Package has 1 warning' \
-            'package:built_value_generator/built_value_generator.dart is opting out of null safety' \
+          multipack --only $PACKAGES exec 'pub publish --dry-run
 
   check_svg:
     runs-on: ubuntu-latest
@@ -214,10 +204,10 @@ jobs:
       - name: Activate multipack
         run: |
           echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-          pub global activate multipack
+          dart pub global activate melos
       - name: Generate SVG
         run: |
-          multipack info | dot -Tsvg -o docs/gql.svg
+          melos list --gviz | dot -Tsvg -o docs/gql.svg
           cat docs/gql.svg
       - name: Check changes
         run: |

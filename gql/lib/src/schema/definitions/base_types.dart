@@ -41,8 +41,7 @@ abstract class GraphQLEntity {
 }
 
 @immutable
-abstract class EntityWithResolver extends GraphQLEntity
-    implements TypeResolver {
+abstract class EntityWithResolver extends GraphQLEntity implements TypeResolver {
   const EntityWithResolver([ResolveType? getType])
       : getType = getType ?? TypeResolver.withoutContext,
         super();
@@ -82,9 +81,7 @@ mixin AbstractType on TypeDefinition {
       return abstractType.typeNames.contains(objectType.name);
     }
     if (abstractType is InterfaceTypeDefinition) {
-      return objectType.interfaceNames
-          .map((n) => n.name)
-          .contains(abstractType.name);
+      return objectType.interfaceNames.map((n) => n.name).contains(abstractType.name);
     }
 
     throw ArgumentError("$abstractType is unsupported");
@@ -211,8 +208,7 @@ class Directive extends GraphQLEntity {
 
   String get name => astNode.name.value;
 
-  List<Argument> get arguments =>
-      astNode.arguments.map((a) => Argument(a)).toList();
+  List<Argument> get arguments => astNode.arguments.map(Argument.new).toList();
 }
 
 /// Base class of all type system definitions
@@ -267,8 +263,7 @@ abstract class TypeDefinition extends TypeSystemDefinition {
 
   String? get description => astNode.description?.value;
 
-  List<Directive> get directives =>
-      astNode.directives.map((d) => Directive(d)).toList();
+  List<Directive> get directives => astNode.directives.map(Directive.new).toList();
 
   static TypeDefinition fromNode(TypeDefinitionNode node) {
     if (node is ScalarTypeDefinitionNode) {
@@ -308,8 +303,7 @@ abstract class TypeDefinition extends TypeSystemDefinition {
 }
 
 @immutable
-abstract class TypeDefinitionWithResolver extends TypeDefinition
-    implements TypeResolver {
+abstract class TypeDefinitionWithResolver extends TypeDefinition implements TypeResolver {
   const TypeDefinitionWithResolver([ResolveType? getType])
       : getType = getType ?? TypeResolver.withoutContext,
         super();

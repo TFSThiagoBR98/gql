@@ -1,8 +1,7 @@
 import "dart:convert";
 import "dart:io";
-
-import "package:gql/cats/cats.dart";
 import "package:yaml/yaml.dart";
+import "../cats.dart";
 
 class CatBuilder {
   Suite buildSuite(String suitePath) {

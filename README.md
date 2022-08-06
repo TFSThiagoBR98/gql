@@ -160,28 +160,24 @@ and to build a community around this vendor-neutral implementation.
 
 Community contributions are welcome.
 
-### `multipack`
-This repo uses [`multipack`](https://github.com/gql-dart/multipack). To activate it run the following command.
+### `melos`
+This repo uses [`melos`](https://github.com/invertase/melos). To activate it run the following command.
 ```bash
-pub global activate multipack
+pub global activate melos
 ```
 
-`multipack` provides a simple way of running commands in multiple packages at once. It builds a directed graph of packages
+`melos` provides a simple way of running commands in multiple packages at once. It builds a directed graph of packages
 to run commands in topological order.
 
-Link all local packages by running
+
+Link all local packages and Get all packages by running
 ```bash
-multipack pubspec override
+melos bootstrap
 ```
 
-Get all packages by running
+To publish to pub.dev run
 ```bash
-multipack pub get
-```
-
-Clean up the pubspec file before publishing
-```bash
-multipack pubspec clean
+melos publish
 ```
 
 See more usage examples in [.github/workflows/dart.yml](.github/workflows/dart.yml).

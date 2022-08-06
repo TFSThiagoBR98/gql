@@ -28,17 +28,14 @@ class SelectionSet extends ExecutableWithResolver {
   @override
   final SelectionSetNode? astNode;
 
-  List<Selection> get selections => astNode!.selections
-      .map((selection) => Selection.fromNode(selection, schemaType, getType))
-      .toList();
+  List<Selection> get selections =>
+      astNode!.selections.map((selection) => Selection.fromNode(selection, schemaType, getType)).toList();
 
   List<Field> get fields => selections.whereType<Field>().toList();
 
-  List<FragmentSpread> get fragmentSpreads =>
-      selections.whereType<FragmentSpread>().toList();
+  List<FragmentSpread> get fragmentSpreads => selections.whereType<FragmentSpread>().toList();
 
-  List<InlineFragment> get inlineFragments =>
-      selections.whereType<InlineFragment>().toList();
+  List<InlineFragment> get inlineFragments => selections.whereType<InlineFragment>().toList();
 }
 
 /// [SelectionSet]s consist of [selections](https://spec.graphql.org/June2018/#Selection)
@@ -63,10 +60,8 @@ abstract class Selection extends ExecutableWithResolver {
   ]) {
     if (astNode is FieldNode) {
       // fields can only be selected on Interface and Object types
-      final fieldType = (schemaType != null)
-          ? (schemaType as TypeDefinitionWithFieldSet)
-              .getField(astNode.name.value)
-          : null;
+      final fieldType =
+          (schemaType != null) ? (schemaType as TypeDefinitionWithFieldSet).getField(astNode.name.value) : null;
       return Field(astNode, fieldType, getType);
     }
 
@@ -117,11 +112,9 @@ class Field extends Selection {
 
   GraphQLType? get type => schemaType!.type;
 
-  List<Argument> get arguments =>
-      astNode.arguments.map((a) => Argument(a)).toList();
+  List<Argument> get arguments => astNode.arguments.map(Argument.new).toList();
 
-  List<Directive> get directives =>
-      astNode.directives.map((d) => Directive(d)).toList();
+  List<Directive> get directives => astNode.directives.map(Directive.new).toList();
 
   SelectionSet? get selectionSet => astNode.selectionSet != null
       ? SelectionSet(
@@ -141,9 +134,7 @@ class Field extends Selection {
 /// This happens through multiple levels of fragment spreads.
 @immutable
 class FragmentSpread extends Selection {
-  const FragmentSpread(this.astNode,
-      [this.schemaType, GetExecutableType? getType])
-      : super(getType);
+  const FragmentSpread(this.astNode, [this.schemaType, GetExecutableType? getType]) : super(getType);
 
   @override
   final FragmentSpreadNode astNode;
@@ -166,8 +157,7 @@ class FragmentSpread extends Selection {
     return frag;
   }
 
-  List<Directive> get directives =>
-      astNode.directives.map((d) => Directive(d)).toList();
+  List<Directive> get directives => astNode.directives.map(Directive.new).toList();
 }
 
 /// [Inline Fragments](https://spec.graphql.org/June2018/#sec-Inline-Fragments)
@@ -187,8 +177,7 @@ class InlineFragment extends Selection {
 
   TypeCondition get typeCondition => TypeCondition(astNode.typeCondition);
 
-  TypeDefinitionWithFieldSet? get onType =>
-      getType.fromSchema!(onTypeName) as TypeDefinitionWithFieldSet?;
+  TypeDefinitionWithFieldSet? get onType => getType.fromSchema!(onTypeName) as TypeDefinitionWithFieldSet?;
 
   String get onTypeName => typeCondition.on.name;
 
@@ -198,9 +187,7 @@ class InlineFragment extends Selection {
   @override
   final TypeDefinition? schemaType;
 
-  List<Directive> get directives =>
-      astNode.directives.map((d) => Directive(d)).toList();
+  List<Directive> get directives => astNode.directives.map(Directive.new).toList();
 
-  SelectionSet get selectionSet =>
-      SelectionSet(astNode.selectionSet, onType, getType);
+  SelectionSet get selectionSet => SelectionSet(astNode.selectionSet, onType, getType);
 }

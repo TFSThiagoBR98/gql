@@ -15,8 +15,7 @@ abstract class ExecutableDefinition extends ExecutableWithResolver {
 
   String? get name;
 
-  static ExecutableDefinition fromNode(ExecutableDefinitionNode astNode,
-      [GetExecutableType? getType]) {
+  static ExecutableDefinition fromNode(ExecutableDefinitionNode astNode, [GetExecutableType? getType]) {
     if (astNode is OperationDefinitionNode) {
       return OperationDefinition(astNode, getType);
     }
@@ -50,11 +49,9 @@ class OperationDefinition extends ExecutableDefinition {
 
   OperationType get type => astNode.type;
 
-  ObjectTypeDefinition? get schemaType =>
-      getType.fromSchema!(type.name) as ObjectTypeDefinition?;
+  ObjectTypeDefinition? get schemaType => getType.fromSchema!(type.name) as ObjectTypeDefinition?;
 
-  List<VariableDefinition> get variables =>
-      astNode.variableDefinitions.map((v) => VariableDefinition(v)).toList();
+  List<VariableDefinition> get variables => astNode.variableDefinitions.map(VariableDefinition.new).toList();
 
   SelectionSet get selectionSet => SelectionSet(
         astNode.selectionSet,
@@ -74,8 +71,7 @@ class OperationDefinition extends ExecutableDefinition {
 /// when querying against an [InterfaceTypeDefinition] or [UnionTypeDefinition].
 @immutable
 class FragmentDefinition extends ExecutableDefinition {
-  const FragmentDefinition(this.astNode, [GetExecutableType? getType])
-      : super(getType);
+  const FragmentDefinition(this.astNode, [GetExecutableType? getType]) : super(getType);
 
   @override
   final FragmentDefinitionNode astNode;
@@ -87,11 +83,9 @@ class FragmentDefinition extends ExecutableDefinition {
 
   TypeDefinition? get onType => getType.fromSchema!(_typeCondition.on.name);
 
-  List<Directive> get directives =>
-      astNode.directives.map((d) => Directive(d)).toList();
+  List<Directive> get directives => astNode.directives.map(Directive.new).toList();
 
-  SelectionSet get selectionSet =>
-      SelectionSet(astNode.selectionSet, onType, getType);
+  SelectionSet get selectionSet => SelectionSet(astNode.selectionSet, onType, getType);
 }
 
 /// [FragmentDefinition]s must specify the type they apply to through
@@ -125,8 +119,7 @@ class TypeCondition extends ExecutableGraphQLEntity {
 /// the execution of that operation.
 @immutable
 class VariableDefinition extends ExecutableWithResolver {
-  const VariableDefinition(this.astNode, [GetExecutableType? getType])
-      : super(getType);
+  const VariableDefinition(this.astNode, [GetExecutableType? getType]) : super(getType);
 
   @override
   final VariableDefinitionNode astNode;
@@ -142,6 +135,5 @@ class VariableDefinition extends ExecutableWithResolver {
 
   DefaultValue get defaultValue => DefaultValue(astNode.defaultValue);
 
-  List<Directive> get directives =>
-      astNode.directives.map((d) => Directive(d)).toList();
+  List<Directive> get directives => astNode.directives.map(Directive.new).toList();
 }

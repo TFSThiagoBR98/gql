@@ -1,6 +1,11 @@
 name: gql_pedantic
-version: 1.0.2
+version: 2.0.0
 description: Even more opinionated lint rules.
 repository: https://github.com/gql-dart/gql
-environment: 
-  sdk: '>=2.7.2 <3.0.0'
+
+environment:
+  sdk: '>=2.17.0 <3.0.0'
+
+dependencies:
+  flutter_lints: ^2.0.0
+  lints: ^2.0.0

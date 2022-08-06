@@ -1,3 +1,5 @@
+include: package:lints/recommended.yaml
+
 # For lint rules and documentation, see http://dart-lang.github.io/linter/lints.
 linter:
   rules:
@@ -110,6 +112,7 @@ analyzer:
     valid_regexps: error
     # pedantic 1.9.0
     always_declare_return_types: error
+    depend_on_referenced_packages: error
     always_require_non_null_named_parameters: error
     annotate_overrides: error
     avoid_null_checks_in_equality_operators: error

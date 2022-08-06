@@ -1,5 +1,5 @@
-import "package:gql/cats/cats.dart";
 import "package:test/test.dart";
+import "../cats.dart";
 
 abstract class CatDriver<Doc> {
   Doc parse({
@@ -61,8 +61,7 @@ class CatRunner<Doc> {
       orElse: () => null,
     ) as ErrorCountAssertion?;
     // ignore: unused_local_variable
-    final errorCodeAssertions =
-        testCase.assertions!.whereType<ErrorCodeAssertion>();
+    final errorCodeAssertions = testCase.assertions!.whereType<ErrorCodeAssertion>();
     // ignore: unused_local_variable
     final errorContainsAssertion = testCase.assertions!.firstWhere(
       (a) => a is ErrorContainsAssertion,
@@ -111,9 +110,8 @@ class CatRunner<Doc> {
             }
           }
 
-          final validationRules = testCase.action is ValidationAction
-              ? (testCase.action as ValidationAction).validationRules
-              : null;
+          final validationRules =
+              testCase.action is ValidationAction ? (testCase.action as ValidationAction).validationRules : null;
 
           validationErrors = driver!.validate(
             schema: schemaDoc,
@@ -131,9 +129,7 @@ class CatRunner<Doc> {
               query: queryDoc,
               schema: schemaDoc,
               testData:
-                  testData != null && testData.containsKey(action.testValue)
-                      ? testData[action.testValue!]
-                      : testData,
+                  testData != null && testData.containsKey(action.testValue) ? testData[action.testValue!] : testData,
               operation: action.operationName,
               variables: action.variables,
             );

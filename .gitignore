@@ -10,6 +10,7 @@ build/
 # Directory created by dartdoc
 doc/api/
 
+**/pubspec_overrides.yaml
 
 .idea/
 .vscode/
@@ -17,3 +18,4 @@ doc/api/
 **/*.iml
 
 **/test/**/*.mocks.dart
+.fvm

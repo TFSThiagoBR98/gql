@@ -66,8 +66,7 @@ class FieldDefinition extends EntityWithResolver {
 
   GraphQLType? get type => GraphQLType.fromNode(astNode!.type, getType);
 
-  List<Directive>? get directives =>
-      astNode!.directives.map((d) => Directive(d)).toList();
+  List<Directive>? get directives => astNode!.directives.map(Directive.new).toList();
 
   List<InputValueDefinition>? get args => astNode!.args
       .map(
@@ -102,16 +101,14 @@ abstract class TypeDefinitionWithFieldSet extends TypeDefinitionWithResolver {
 ///
 /// See [TypeDefinition] for details on all GraphQL Type Definitions.
 @immutable
-class InterfaceTypeDefinition extends TypeDefinitionWithFieldSet
-    with AbstractType {
+class InterfaceTypeDefinition extends TypeDefinitionWithFieldSet with AbstractType {
   const InterfaceTypeDefinition(
     this.astNode, [
     ResolveType? getType,
   ]) : super(getType);
 
   @override
-  List<FieldDefinition> get fields =>
-      astNode.fields.map((field) => FieldDefinition(field, getType)).toList();
+  List<FieldDefinition> get fields => astNode.fields.map((field) => FieldDefinition(field, getType)).toList();
 
   @override
   FieldDefinition getField(String fieldName) => _fields.firstWhere(
@@ -124,12 +121,11 @@ class InterfaceTypeDefinition extends TypeDefinitionWithFieldSet
   @override
   final InterfaceTypeDefinitionNode astNode;
 
-  bool isImplementedBy(ObjectTypeDefinition objectType) =>
-      objectType.interfaceNames
-          .map(
-            (name) => name.name,
-          )
-          .contains(name);
+  bool isImplementedBy(ObjectTypeDefinition objectType) => objectType.interfaceNames
+      .map(
+        (name) => name.name,
+      )
+      .contains(name);
 }
 
 /// [Definition for a GraphQL Object](https://spec.graphql.org/June2018/#ObjectTypeDefinition),
@@ -181,9 +177,8 @@ class ObjectTypeDefinition extends TypeDefinitionWithFieldSet {
       )
       .toList();
 
-  List<InterfaceTypeDefinition?> get interfaces => interfaceNames
-      .map((i) => getType(i.name) as InterfaceTypeDefinition?)
-      .toList();
+  List<InterfaceTypeDefinition?> get interfaces =>
+      interfaceNames.map((i) => getType(i.name) as InterfaceTypeDefinition?).toList();
 
   /// Extract all inherited interface names recursively
   Set<String?> get _inheritedFieldNames => interfaces
@@ -226,8 +221,7 @@ class UnionTypeDefinition extends TypeDefinitionWithResolver with AbstractType {
   /// > The member types of a Union type must all be Object base types;
   /// > Scalar, Interface and Union types must not be member types of a Union.
   /// > Similarly, wrapping types must not be member types of a Union.
-  List<ObjectTypeDefinition> get types =>
-      _typeNames.map(getType).cast<ObjectTypeDefinition>().toList();
+  List<ObjectTypeDefinition> get types => _typeNames.map(getType).cast<ObjectTypeDefinition>().toList();
 }
 
 /// An [Input Object Type Definition](https://spec.graphql.org/June2018/#InputObjectTypeDefinition)
@@ -250,9 +244,8 @@ class InputObjectTypeDefinition extends TypeDefinitionWithResolver {
   @override
   final InputObjectTypeDefinitionNode astNode;
 
-  List<InputValueDefinition> get fields => astNode.fields
-      .map((inputValue) => InputValueDefinition(inputValue, getType))
-      .toList();
+  List<InputValueDefinition> get fields =>
+      astNode.fields.map((inputValue) => InputValueDefinition(inputValue, getType)).toList();
 }
 
 /// Field and directive arguments accept [input values](https://spec.graphql.org/June2018/#sec-Input-Values)
@@ -280,8 +273,7 @@ class InputValueDefinition extends EntityWithResolver {
 
   Value? get defaultValue => Value.fromNode(astNode!.defaultValue);
 
-  List<Directive>? get directives =>
-      astNode!.directives.map((d) => Directive(d)).toList();
+  List<Directive>? get directives => astNode!.directives.map(Directive.new).toList();
 }
 
 /*
@@ -318,8 +310,7 @@ class EnumTypeDefinition extends TypeDefinition {
   @override
   final EnumTypeDefinitionNode astNode;
 
-  List<EnumValueDefinition> get values =>
-      astNode.values.map((e) => EnumValueDefinition(e)).toList();
+  List<EnumValueDefinition> get values => astNode.values.map(EnumValueDefinition.new).toList();
 }
 
 /// The literal value of an [EnumTypeDefinition]
@@ -347,9 +338,7 @@ class DirectiveDefinition extends TypeSystemDefinition {
 
   String? get description => astNode!.description?.value;
 
-  List<InputValueDefinition>? get args => astNode!.args
-      .map((inputValue) => InputValueDefinition(inputValue))
-      .toList();
+  List<InputValueDefinition>? get args => astNode!.args.map(InputValueDefinition.new).toList();
 
   List<DirectiveLocation>? get locations => astNode!.locations;
 
